@@ -1,0 +1,88 @@
+<script>
+  
+  // 匹配所有 Number 直接量的正则
+  /^([\+-]?)([0-9]*(\.[0-9]+([eE][\+-]?[0-9]+)?)?|0b[01]+|0o[0-7]+|0x[0-9a-f]+|NaN|Infinity)$/gm
+
+  // uf8 编码
+  function unicode2utf8 (unicode) {
+    unicode = Number(unicode)
+    let binary = unicode.toString(2)
+    let result = ''
+    let ca = []
+    if(unicode < 0x7F) {
+      // result = new Array(9 - binary.length).join(0) + binary
+      result = binary.padStart(8, 0)
+    } else if (unicode >= 0x80 && unicode <= 0x7FF) {
+      for(var i = binary.length - 1; i >= 0 ; i -= 6) {
+        ca.push(binary.slice(i - 5, i + 1))
+        if(i - 6 < 6) {
+          ca.push(binary.slice(0, i - 5))
+          break;
+        }
+      }
+      for(var j = 0; j < ca.length; j++) {
+        result = j === ca.length - 1 ? '110' + ca[j].padStart(5, 0) + result : '10' + ca[j] + result
+      }
+    } else if (unicode >= 0x800 && unicode <= 0xFFFF) {
+      for(var i = binary.length - 1; i >= 0 ; i -= 6) {
+        ca.push(binary.slice(i - 5, i + 1))
+        if(i - 6 < 6) {
+          ca.push(binary.slice(0, i - 5))
+          break;
+        }
+      }
+      for(var j = 0; j < ca.length; j++) {
+        result = j === ca.length - 1 ? '1110' + ca[j].padStart(4, 0) + result : '10' + ca[j] + result
+      }
+    } else if (unicode >= 0x1000 && unicode <= 0x10FFFF) {
+      for(var i = binary.length - 1; i >= 0 ; i -= 6) {
+        ca.push(binary.slice(i - 5, i + 1))
+        if(i - 6 < 6) {
+          ca.push(binary.slice(0, i - 5))
+          break;
+        }
+      }
+      for(var j = 0; j < ca.length; j++) {
+        result = j === ca.length - 1 ? '11110' + ca[j].padStart(3, 0) + result : '10' + ca[j] + result
+      }
+    } else {
+      throw new Error('out of utf8 range')
+    }
+    return Number('0b' + result).toString(16)
+  }
+  debugger; unicode2utf8('0x4E25');
+  // 匹配所有字符串
+  /^[\"\']\w+[((?<=\')\')|(?<=\")\"]$/gm
+
+// 0.9
+// 1
+// 1.2
+// 1.
+// .
+// .1
+// 1.2
+// .12
+// 1.23
+// 1.23e2
+// 10e11
+// 1.23e+2
+// 1.23e-2
+// 1.213123
+// -1
+// +0
+// 0b1
+// 0o7
+// 0xffff
+// -0b1
+// +0b1
+// +0xaa
+// 000000
+// NaN
+// Infinity
+// Infinity
+// +Infinity
+// 10E12
+// 1010
+// 02021
+// 0b0010
+</script>
