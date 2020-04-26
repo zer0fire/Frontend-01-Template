@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>homework 3</title>
+</head>
+<body>
+  
+</body>
+<script>
+  function convertStringToNumber(str ) {
+    let integer = str.split('.')[0]
+    let fraction = str.split('.')[1]
+    let result = 0
+    for(var i = integer.length - 1, j = 0; i >= 0; i--, j++) {
+      result += integer[i] * (10 ** j)
+    }
+    let decimal = 0
+    for(var i = fraction.length - 1; i >= 0; i--) {
+      decimal += fraction[i] - 0
+      decimal = decimal / 10
+    }
+    return result + decimal
+  }
+
+  function convertNumberToString(num, x = 10) {
+    let integer = Math.floor(num)
+    let fraction = num - integer
+    let result = ''
+    while(integer > 0) {
+      result = integer % x + result
+      integer = Math.floor(integer / x)
+    }
+    if(result === '') {
+      result += '0'
+    }
+    result += '.'
+    let len = 0
+    while(fraction > 0 && len < 10) {
+      let ca = fraction * x
+      let carry = Math.floor(ca)
+      result += carry
+      fraction = ca - carry
+      len++
+    }
+    return result
+  }
+
+</script>
+</html>
