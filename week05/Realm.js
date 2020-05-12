@@ -48,7 +48,11 @@ Realm中的对象
     'JSON',
     'Math',
     'Reflect',
-    'BigInt', // 新的 BigInt API
+    'WebAssembly',
+    'BigInt64Array',
+    'BigUint64Array',
+    'BigInt',
+    'Intl',
   ]
 
   var queue = []
