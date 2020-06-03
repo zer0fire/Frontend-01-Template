@@ -4,15 +4,15 @@ function match (element, selector) {
   let regClass = /(\.\w+)+/g
   let regId = /(#\w+)+/g
 
-  let resClass = selector.match(regClass)
-  let resId = selector.match(regId)
+  let classAry = selector.match(regClass)
+  let idArr = selector.match(regId)
 
-  if(resClass) {
-    let resClassArr = []
-    for(let i = 0; i < resClass.length; i++) {
-      let tempArr = resClass[i].split('.')
+  if(classAry) {
+    let classAryArr = []
+    for(let i = 0; i < classAry.length; i++) {
+      let tempArr = classAry[i].split('.')
       for(let j = 1; j < tempArr.length; j++) {
-        resClassArr.push(tempArr[j])
+        classAryArr.push(tempArr[j])
       }
     }
 
@@ -22,11 +22,11 @@ function match (element, selector) {
       classAttrRes = classAtt[0]['value'].split(' ')
     }
     let tempFlag = null
-    for(let i = 0; i < resClassArr.length; i++) {
+    for(let i = 0; i < classAryArr.length; i++) {
       tempFlag = false
       let k = 0
       for(; k < classAttrRes.length; k++) {
-        if(classAttrRes[k] === resClassArr[i]) {
+        if(classAttrRes[k] === classAryArr[i]) {
           tempFlag = true
           break
         }
@@ -37,9 +37,9 @@ function match (element, selector) {
     }
   }
 
-  if(resId && resId[0].charAt(0) === '#') {
+  if(idArr && idArr[0].charAt(0) === '#') {
     const attr = element.attributes.filter(attr => attr.name === 'id')[0]
-    if(attr && attr.val === resId[0].replace('#', '')) {
+    if(attr && attr.val === idArr[0].replace('#', '')) {
       return true
     } else {
       return false
@@ -59,7 +59,7 @@ function match (element, selector) {
     if(attr && attr[0] && attr[0].value === cssAttrValue) {
       return true
     }
-  } else if (resClass && resClass.length) {
+  } else if (classAry && classAry.length) {
     return true
   }
   return false
