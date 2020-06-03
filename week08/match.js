@@ -50,6 +50,15 @@ function match (element, selector) {
     } else {
       return false
     }
+  } else if (selector.charAt(0) === '[' && selector.charAt[selector.length - 1] === ']') {
+    /// 属性选择器
+    let idx = selector.indexOf('=')
+    let cssAttrName = selector.slice(1, idx);
+    let cssAttrValue = selector.slice(idx + 1)
+    let attr = element.attributes.filter(attr => attr.name === cssAttrName)
+    if(attr && attr[0] && attr[0].value === cssAttrValue) {
+      return true
+    }
   } else if (resClass && resClass.length) {
     return true
   }
