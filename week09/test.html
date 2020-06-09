@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2020-06-06</title>
+</head>
+<body>
+  <div class="x">
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+  </div>
+  <div class="b">
+  </div>
+</body>
+<script>
+  let x = document.querySelector('.x')
+  let b = document.querySelector('.b')
+
+  while(x.children.length) {
+    b.appendChild(x.children[0])
+  }
+
+</script>
+</html>
