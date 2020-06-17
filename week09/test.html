@@ -23,5 +23,19 @@
     b.appendChild(x.children[0])
   }
 
+
+  let x = document.querySelector('.x')
+  let b = document.querySelector('.b')
+
+  Array.from(b.children).reverse().forEach(it => b.appendChild(it))
+
+  let element
+  function reverseChildren(element) {
+    let l = element.children.length - 1
+    while(l -- > 0) {
+      element.appendChild(element.children[l])
+    }
+  }
+
 </script>
 </html>
