@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>signal-light</title>
+  <style>
+    .signal-container {
+      padding: 10px;
+      border: 2px solid;
+      width: 100px;
+    }
+    .signal-container div {
+      width: 100px;
+      height: 100px;
+      border-radius: 50px;
+      /* border: 6px solid #000; */
+    }
+    .signal-container div.hide {
+      background-color: grey;
+    }
+    .red {
+      background-color: rgb(235, 91, 91);
+    }
+    .green {
+      background-color: rgb(98, 177, 98);
+    }
+    .yellow {
+      background-color: rgb(206, 206, 130);
+    }
+  </style>
+</head>
+<body>
+  <div class="signal-container">
+    <div class="red"></div><br>
+    <div class="green"></div><br>
+    <div class="yellow"></div>
+  </div>
+</body>
+<script>
+  void async function () {
+    while(true) {
+      red()
+      await sleep(3000)
+      green()
+      await sleep(5000)
+      yellow()
+      await sleep(1000)
+    }
+  }()
+  function sleep(t) {
+    return new Promise((resolve, reject) => {
+      setTimeout(resolve, t)
+    })
+  }
+
+  function hide() {
+    let lights = document.getElementsByTagName('div')
+    for(let i = 0; i < lights.length; i++) {
+      lights[i].classList.add('hide')
+    }
+  }
+
+  function red() {
+    hide()
+    let red = document.getElementsByClassName('red')[0]
+    red.classList.remove('hide')
+  }
+  function green() {
+    hide()
+    let green = document.getElementsByClassName('green')[0]
+    green.classList.remove('hide')
+  }
+  function yellow() {
+    hide()
+    let yellow = document.getElementsByClassName('yellow')[0]
+    yellow.classList.remove('hide')
+  }
+</script>
+</html>
