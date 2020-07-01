@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Four Operation</title>
+</head>
+<body>
+</body>
+<script>
+  let reg = /([0-9\.)|([ ]+)|([\r\n]+)|(\+)|(\-)|(\*)|(\/)/g
+  let dictinary = ['Number', 'Whitespace', 'LineTerminator', '+', '-', '*', '/']
+  function * tokenize(source) {
+    let result = null
+    let lastIndex = 0
+    do {
+      lastIndex = reg.lastIndex
+      result = reg.exec(source)
+      if(!result) {
+        break
+      }
+      if(reg.lastIndex - lastIndex > result[0].length) {
+        throw new Error(`Unexception token "${source.slice(lastIndex, reg.lastIndex - result[0].length)}" !`)
+      }
+
+      let token = {
+        type: '',
+        val: '',
+      }
+      for (let i = 0; i < dictionary.length; i++){
+        if(result[i] + 1) {
+          token.type = dictinary[i]
+        }
+      }
+      token.val = result[0]
+      yield token
+    } while (result)
+
+    yield ({ type: 'EOF' })
+  }
+
+  function Expression(soruce) {
+    if(source[0].type === 'AdditiveExpression' && source[1].type === 'EOF') {
+      let node = {
+        type: 'Expression',
+        children: [source.shift(), source.shift()]
+      }
+      source.unshift(node)
+      return node
+    }
+    AdditiveExpression(source)
+    return Expression(source)
+  }
+
+  function AdditiveExpression(source) {
+    if (soruce[0].type === 'Number') {
+      MultiplicationExpression(soruce)
+      return AdditiveExpression(soruce)
+    }
+
+    if(soruce[0].type === 'MultiplicationExpression') {
+      let node = {
+        type: 'AdditiveExpression',
+        children: [soruce.shift()]
+      }
+      soruce.unshift(node)
+      return AdditiveExpression(soruce)
+    }
+
+    if(soruce[0].type === 'AdditiveExpression' && soruce.length > 1 && (soruce[1].type === '+' || source[1].type === '-')) {
+      let node = {
+        type: 'AdditiveExpression',
+        children: [ soruce.shift(), soruce.shift() ]
+      }
+      MultiplicationExpression(source) 
+      node.children.push(source.shift())
+      source.unshift(node)
+      return AdditiveExpression(source)
+    }
+    return source[0]
+  }
+
+  function MultiplicationExpression(source) {
+    if(source[0].type === 'Number') {
+      let node = {
+        type: 'MultiplicationExpression',
+        children: [source.shift()]
+      }
+      source.unshift(node)
+      return MultiplicationExpression(source)
+    }
+
+    if(source[0].type === 'MultiplicationExpression' && source.length > 1 && (source[1].type === '*' || source[1].type === '/')) {
+      let node = {
+        type: 'MultiplicationExpression',
+        children: [ source.shift(), source.shift(), source.shift() ]
+      }
+      source.unshift(node)
+      return MultiplicationExpression(source)
+    }
+    return source[0]
+  }
+
+  let source = []
+  for(let token of tokenize('1024 * 2 * 4 + 10 * 25')) {
+    if(token.type !== 'Whitespace' && token.type !== 'LineTerminator') {
+      source.push(token)
+    }
+  }
+  console.log(Expression(source))
+</script>
+</html>
