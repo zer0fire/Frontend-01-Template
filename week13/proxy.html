@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proxy</title>
+</head>
+<body>
+  r:<input id="r" type="rang" min="0" max="255">
+  g:<input id="g" type="rang" min="0" max="255">
+  b:<input id="b" type="rang" min="0" max="255">
+  <div id="color" style="width: 100px; height: 100px;"></div>
+</body>
+<script>
+  let handlers = new Map()
+  let reactivites = new Map()
+
+  let usedReactivities = []
+  let object = {
+    a: { x: 3 },
+    b: 2
+  }
+
+  function reactive (obj) {
+    if (reactivites.has(obj))
+      return reactivites.get(obj)
+
+    let proxy = new Proxy(obj, {
+      get(obj, prop) {
+        usedReactivities.push([obj, prop])
+        return typeof obj[prop] === 'object' ? reactive(obj[prop]) : obj[prop]
+      },
+      set(obj, prop, val) {
+        
+      },
+    })
+
+
+  }
+
+</script>
+</html>
