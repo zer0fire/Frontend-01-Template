@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dragable</title>
+</head>
+<body>
+  <div id="container">
+    前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端
+    前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端
+    前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端
+    前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端
+    前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端
+    前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端
+    前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端
+    前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端
+    前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端
+    前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端
+    前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端
+    前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端
+    前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端
+    前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端
+    前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端 前端 钱端
+  </div>
+  <div id="dragable" style="width: 100px; height: 100px; background-color: lightblue; display: inline-block;"></div>
+</body>
+<script>
+  let dragable = document.getElementById('dragable')
+
+  let baseX = 0
+  let baseY = 0
+  
+  let timer = null
+
+  dragable.addEventListener('mousedown', event => {
+    let startX = event.clientX
+    let startY = event.clientY
+    let move = event => {
+      timer && clearTimeout(timer)
+      tiemr = setTimeout(() => {
+        let range = nearest(event.clientX, event.clientY)
+        range.insertNode(dragable)
+      }, 100)
+    }
+    let up = event => {
+      baseX = baseX + event.clientX - startX
+      baseY = baseY + event.clientY - startY
+      document.removeEventListener('mousemove', move)
+      document.removeEventListener('mouseup', up)
+    }
+    // debugger;
+    document.addEventListener('mousemove', move)
+    document.addEventListener('mouseup', up)
+  })
+
+  let ranges = []
+  let contianer = document.getElementById('container')
+
+  for (let i = 0; i < container.childNodes[0].textContent.length; i++) {
+    let range = document.createRange()
+    range.setStart(container.childNodes[0], i)
+    range.setEnd(container.childNodes[0], i)
+    ranges.push(range)
+  }
+
+  function nearest(x0, y0) {
+    let nearestRange = null
+    let distance = Infinity
+    for (const range of ranges) {
+      let { x, y } = range.getBoundingClientRect()
+      let dis = (x0 - x) ** 2 + (y0 - y) ** 2
+      if (dis < distance) {
+        nearestRange = range
+        distance = dis
+      }
+    }
+    return nearestRange
+  }
+
+  document.addEventListener('selectstart', event => event.preventDefault())
+
+</script>
+</html>
