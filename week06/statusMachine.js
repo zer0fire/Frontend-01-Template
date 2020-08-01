@@ -75,3 +75,4 @@ function foundB6(c) {
 // 匹配了ababab, 第七位未命中则退回到abab模式，因为第七位未命中不是x，有可能是a，且状态机里只能处理一种状态，那么就将ababab里的最后四位abab留下，所以从abab开始。
 console.log(match('ab abcd abcdaa aabcdef abcabx abababx')) // true
 console.log(match('ab abcd abcdaa aabcdef abcabx ababab')) // false
+

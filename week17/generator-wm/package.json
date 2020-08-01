@@ -1,0 +1,15 @@
+{
+  "name": "generator-wm",
+  "version": "0.1.0",
+  "description": "",
+  "main": "./app/index.js",
+  "files": [
+    "generators"
+  ],
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "dependencies": {
+    "yeoman-generator": "^1.0.0"
+  }
+}
