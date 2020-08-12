@@ -212,7 +212,15 @@ function tagOpen(c) {
     }
     return tagName(c)
   } else {
-    return
+    emit({
+      type: 'text',
+      content: '<'
+    });
+    emit({
+      type: "text",
+      content: c
+    })
+    return data
   }
 }
 
