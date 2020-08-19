@@ -410,7 +410,7 @@ module.exports.parserHTML = function parserHTML(html) {
   // console.log(currentToken)
   // console.log(JSON.stringify(stack))
 
-  return stack
+  return stack[0]
 }
 
 
