@@ -5,15 +5,6 @@ var page = require('webpage').create();
 page.open('http://localhost:8080/', function(status) {
   console.log("Status: " + status);
   if(status === "success") {
-    // 渲染图片
-    // console.log('rending');
-    // page.render('./baidu.jpg');
-
-    // 获取网页 title
-    // var title = page.evaluate(function() {
-    //   return document.title;
-    // });
-    // console.log('Page title is ' + title);
 
     var body = page.evaluate(function() {
       var toString = function(pad, element) {
